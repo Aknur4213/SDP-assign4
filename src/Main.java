@@ -1,13 +1,52 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-void main() {
-    //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-    // to see how IntelliJ IDEA suggests fixing it.
-    IO.println(String.format("Hello and welcome!"));
+import LibrarySystem.LibraryFacade;
+import java.util.Scanner;
 
-    for (int i = 1; i <= 5; i++) {
-        //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-        // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-        IO.println("i = " + i);
+public class Main {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        LibraryFacade library = new LibraryFacade();
+        while (true) {
+            System.out.println("\n=== UNIVERSITY LIBRARY ===");
+            System.out.println("1. Register / log in");
+            System.out.println("2. Exit");
+            System.out.print("Choose: ");
+            String choice = input.nextLine();
+            if (choice.equals("2")) break;
+            if (!choice.equals("1")) continue;
+
+            System.out.print("Your name: ");
+            String name = input.nextLine().trim();
+            System.out.print("University ID: ");
+            String id = input.nextLine().trim();
+            if (name.isEmpty() || id.isEmpty()) {
+                System.out.println("Name and university ID cannot be empty.");
+                continue;
+            }
+            library.register(name, id);
+
+            while (true) {
+                System.out.println("\n1. View books  2. Borrow  3. Return");
+                System.out.println("4. My history  5. My deadlines  6. Log out");
+                System.out.print("Choose: ");
+                String action = input.nextLine();
+                if (action.equals("6")) break;
+                switch (action) {
+                    case "1" -> library.listbooks();
+                    case "2" -> {
+                        System.out.print("Book title: ");
+                        library.borrowBook(id, input.nextLine().trim());
+                    }
+                    case "3" -> {
+                        System.out.print("Book title: ");
+                        library.returnBook(id, input.nextLine().trim());
+                    }
+                    case "4" -> library.viewHistory(id);
+                    case "5" -> library.viewDeadlines(id);
+                    default -> System.out.println("Invalid choice.");
+                }
+            }
+        }
+        System.out.println("Goodbye!");
+        input.close();
     }
 }
