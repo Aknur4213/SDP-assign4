@@ -30,19 +30,27 @@ public class Main {
                 System.out.print("Choose: ");
                 String action = input.nextLine();
                 if (action.equals("6")) break;
-                switch (action) {
-                    case "1" -> library.listbooks();
-                    case "2" -> {
-                        System.out.print("Book title: ");
-                        library.borrowBook(id, input.nextLine().trim());
-                    }
-                    case "3" -> {
-                        System.out.print("Book title: ");
-                        library.returnBook(id, input.nextLine().trim());
-                    }
-                    case "4" -> library.viewHistory(id);
-                    case "5" -> library.viewDeadlines(id);
-                    default -> System.out.println("Invalid choice.");
+                if (action.equals("1")) {
+                    library.listbooks();
+
+                } else if (action.equals("2")) {
+                    System.out.print("Book title: ");
+                    String title = input.nextLine().trim();
+                    library.borrowBook(id, title);
+
+                } else if (action.equals("3")) {
+                    System.out.print("Book title: ");
+                    String title = input.nextLine().trim();
+                    library.returnBook(id, title);
+
+                } else if (action.equals("4")) {
+                    library.viewHistory(id);
+
+                } else if (action.equals("5")) {
+                    library.viewDeadlines(id);
+
+                } else {
+                    System.out.println("Invalid choice.");
                 }
             }
         }
